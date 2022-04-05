@@ -33,7 +33,8 @@ const schema = new mongoose.Schema({
     minLength: [10, 'The password must be of minimum length 10 characters.'],
     maxLength: [256, 'The password must be of maximum length 256 characters.'],
     required: [true, 'Password is required.']
-  },
+  }
+}, {
   timestamps: true,
   toJSON: {
     /**

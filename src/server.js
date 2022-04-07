@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import logger from 'morgan'
 import { connectDB } from './config/mongoose.js'
 import { router } from './routes/router.js'
+import cookieParser from 'cookie-parser'
 
 try {
   await connectDB()
@@ -10,6 +11,8 @@ try {
   const app = express()
 
   app.use(helmet())
+
+  app.use(cookieParser())
 
   app.use(logger('dev'))
 

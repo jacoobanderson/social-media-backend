@@ -17,9 +17,10 @@ export class AccountController {
     try {
       const user = await User.authenticate(req.body.username, req.body.password)
 
+      user.password = undefined
       const payload = {
-        sub: user.username,
-        id: user.id
+        sub: user.id,
+        username: user.username
       }
 
       const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -80,6 +81,28 @@ export class AccountController {
         err.cause = error
       }
 
+      next(err)
+    }
+  }
+
+  /**
+   * Verify user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async verifyJWT (req, res, next) {
+    try {
+      const payload = jwt.verify(req.cookie.jwt, process.env.PUBLIC_SECRET)
+      if (req.userId !== payload.id) {
+        createError(401)
+      }
+      res
+        .status(201)
+        .json(payload)
+    } catch (error) {
+      const err = createError(401)
       next(err)
     }
   }

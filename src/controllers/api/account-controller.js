@@ -27,12 +27,20 @@ export class AccountController {
         expiresIn: process.env.ACCESS_TOKEN_LIFE
       })
 
+      res.cookie('jwt', accessToken, {
+        maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+      })
+
       res
         .status(201)
         .json({
-          access_token: accessToken
+          id: user.id
         })
     } catch (error) {
+        console.log(error)
       const err = createError(401)
       next(err)
     }

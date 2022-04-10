@@ -35,13 +35,14 @@ export class UserController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
+   * @param id
    */
-     async setId (req, res, next, id) {
-        try {
-          req.id = id
-          next()
-        } catch (error) {
-          next(error)
-        }
-}
+  async setId (req, res, next, id) {
+    try {
+      req.id = id
+      next()
+    } catch (error) {
+      next(error)
+    }
+  }
 }

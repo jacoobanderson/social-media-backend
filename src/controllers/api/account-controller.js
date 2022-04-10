@@ -17,7 +17,6 @@ export class AccountController {
     try {
       const user = await User.authenticate(req.body.username, req.body.password)
 
-      user.password = undefined
       const payload = {
         sub: user.id,
         username: user.username
@@ -41,7 +40,7 @@ export class AccountController {
           id: user.id
         })
     } catch (error) {
-        console.log(error)
+      console.log(error)
       const err = createError(401)
       next(err)
     }

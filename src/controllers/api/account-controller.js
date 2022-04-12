@@ -40,7 +40,6 @@ export class AccountController {
           id: user.id
         })
     } catch (error) {
-      console.log(error)
       const err = createError(401)
       next(err)
     }
@@ -85,24 +84,18 @@ export class AccountController {
   }
 
   /**
-   * Verify user.
+   * Logs out.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-  async verifyJWT (req, res, next) {
+  async logout (req, res, next) {
     try {
-      const payload = jwt.verify(req.cookie.jwt, process.env.PUBLIC_SECRET)
-      if (req.userId !== payload.id) {
-        createError(401)
-      }
-      res
-        .status(201)
-        .json(payload)
+      res.clearCookie('jwt')
+      res.end()
     } catch (error) {
-      const err = createError(401)
-      next(err)
+      next(error)
     }
   }
 }

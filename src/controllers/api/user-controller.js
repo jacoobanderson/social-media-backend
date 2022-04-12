@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken'
-import createError from 'http-errors'
 import { User } from '../../models/user.js'
 
 /**
@@ -7,7 +5,7 @@ import { User } from '../../models/user.js'
  */
 export class UserController {
   /**
-   * Gets userData.
+   * Gets user data.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -15,7 +13,7 @@ export class UserController {
    */
   async getUserData (req, res, next) {
     try {
-      const user = await User.findById(req.body.userId)
+      const user = await User.findById(req.params.id)
       res
         .status(201)
         .json({
@@ -25,23 +23,7 @@ export class UserController {
           lastname: user.lastName
         })
     } catch (error) {
-      next(error)
-    }
-  }
-
-  /**
-   * Sets the id.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   * @param id
-   */
-  async setId (req, res, next, id) {
-    try {
-      req.id = id
-      next()
-    } catch (error) {
+      console.log(error)
       next(error)
     }
   }

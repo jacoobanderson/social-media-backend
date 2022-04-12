@@ -12,22 +12,20 @@ const controller = new UserController()
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  * @param {Function} next - Express next middleware function.
+ * @returns {object} Returns the error.
  */
 const verifyJWT = (req, res, next) => {
   try {
     const payload = jwt.verify(req.cookies.jwt, process.env.PUBLIC_SECRET)
-    if (req.id !== payload.sub) {
+    if (req.params.id !== payload.sub) {
       const err = createError(401)
       return next(err)
     }
-    res
-      .status(201)
-      .json(payload)
+    next()
   } catch (error) {
     const err = createError(401)
     next(err)
   }
 }
 
-router.param('id', (req, res, next, id) => controller.setId(req, res, next, id))
 router.get('/:id/info', verifyJWT, (req, res, next) => controller.getUserData(req, res, next))

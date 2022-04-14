@@ -29,3 +29,4 @@ const verifyJWT = (req, res, next) => {
 }
 
 router.get('/:id/info', verifyJWT, (req, res, next) => controller.getUserData(req, res, next))
+router.put('/:id/update', verifyJWT, (req, res, next) => controller.updateProfile(req, res, next))

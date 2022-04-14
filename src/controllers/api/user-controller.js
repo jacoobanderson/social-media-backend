@@ -23,7 +23,8 @@ export class UserController {
         goals: user.goals,
         description: user.description,
         school: user.school,
-        location: user.location
+        location: user.location,
+        image: user.image
       })
     } catch (error) {
       console.log(error)
@@ -49,7 +50,8 @@ export class UserController {
         goals: req.body.goals,
         description: req.body.description,
         school: req.body.school,
-        location: req.body.location
+        location: req.body.location,
+        image: req.body.image
       })
       res.status(204).end()
     } catch (error) {

@@ -59,4 +59,45 @@ export class UserController {
       next(error)
     }
   }
+
+  /**
+   * Gets all the users that the user has not matched with.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async getAllUnmatchedUsers (req, res, next) {
+    try {
+      const users = await User.find({})
+      const unmatchedUsers = []
+
+      users.forEach(user => {
+        let check = false
+        for (let i = 0; i < user.declinedMatches.length; i++) {
+          if (user.declinedMatches[i] === req.params.id) {
+            check = true
+          }
+        }
+        if (check === false) {
+          unmatchedUsers.push({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            programming: user.programming,
+            goals: user.goals,
+            description: user.description,
+            school: user.school,
+            location: user.location,
+            image: user.image
+          })
+        }
+      })
+
+      res.json(unmatchedUsers)
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
 }

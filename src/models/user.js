@@ -51,6 +51,9 @@ const schema = new mongoose.Schema({
   },
   image: {
     type: String
+  },
+  declinedMatches: {
+    type: [String]
   }
 }, {
   timestamps: true,

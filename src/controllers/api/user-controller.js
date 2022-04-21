@@ -79,11 +79,15 @@ export class UserController {
             check = true
           }
         }
+        if (user.id === req.params.id) {
+          check = true
+        }
+
         if (check === false) {
           unmatchedUsers.push({
             id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstname: user.firstName,
+            lastname: user.lastName,
             programming: user.programming,
             goals: user.goals,
             description: user.description,

@@ -67,6 +67,7 @@ export class AccountController {
         .status(201)
         .json({ id: user.id })
     } catch (error) {
+      console.log(error)
       let err = error
 
       if (err.code === 11000) {

@@ -104,4 +104,35 @@ export class UserController {
       next(error)
     }
   }
+
+  /**
+   * Adds a friend.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+   async addFriend (req, res, next) {
+    try {
+      const user = await User.findById(req.params.id)
+
+      user.friends.push({
+        id: req.body.id,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
+        programming: req.body.programming,
+        goals: req.body.goals,
+        description: req.body.description,
+        school: req.body.school,
+        location: req.body.location,
+        image: req.body.image
+      })
+
+      await user.save()
+      res.status(204).end()
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
 }

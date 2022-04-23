@@ -54,6 +54,9 @@ const schema = new mongoose.Schema({
   },
   declinedMatches: {
     type: [String]
+  },
+  friends: {
+    type: [Object]
   }
 }, {
   timestamps: true,

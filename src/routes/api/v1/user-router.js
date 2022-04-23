@@ -31,3 +31,6 @@ const verifyJWT = (req, res, next) => {
 router.get('/:id/all', verifyJWT, (req, res, next) => controller.getAllUnmatchedUsers(req, res, next))
 router.get('/:id/info', verifyJWT, (req, res, next) => controller.getUserData(req, res, next))
 router.put('/:id/update', verifyJWT, (req, res, next) => controller.updateProfile(req, res, next))
+router.put('/:id/friends/add', verifyJWT, (req, res, next) => controller.addFriend(req, res, next))
+router.put('/:id/friends/decline', verifyJWT, (req, res, next) => controller.saveMatchHistory(req, res, next, true))
+router.put('/:id/friends/accept', verifyJWT, (req, res, next) => controller.saveMatchHistory(req, res, next, false))

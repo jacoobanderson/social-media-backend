@@ -135,4 +135,26 @@ export class UserController {
       next(error)
     }
   }
+
+  /**
+   * Adds declined matches.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @param choice
+   */
+     async saveMatchHistory (req, res, next, choice) {
+      try {
+        const user = await User.findById(req.params.id)
+  
+        choice ? user.acceptedMatches.push(req.body.id) : user.declinedMatches.push(req.body.id)
+  
+        await user.save()
+        res.status(204).end()
+      } catch (error) {
+        console.log(error)
+        next(error)
+      }
+    }
 }

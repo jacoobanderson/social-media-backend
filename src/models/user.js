@@ -55,6 +55,9 @@ const schema = new mongoose.Schema({
   declinedMatches: {
     type: [String]
   },
+  acceptedMatches: {
+    type: [String]
+  },
   friends: {
     type: [Object]
   }

@@ -70,15 +70,28 @@ export class UserController {
   async getAllUnmatchedUsers (req, res, next) {
     try {
       const users = await User.find({})
+      const currentUser = await User.findById(req.params.id)
       const unmatchedUsers = []
 
       users.forEach(user => {
+        // If check is false, the user is sent to the client.
         let check = false
-        for (let i = 0; i < user.declinedMatches.length; i++) {
-          if (user.declinedMatches[i] === req.params.id) {
+
+        // Check if a user has declined the current user, if so, don't send.
+        for (let i = 0; i < currentUser.declinedMatches.length; i++) {
+          if (currentUser.declinedMatches[i] === user.id) {
             check = true
           }
         }
+
+        // Check if a user is a friend of the current user, if so, don't send.
+        for (let i = 0; i < user.friends.length; i++) {
+          if (user.friends[i].id === req.params.id) {
+            check = true
+          }
+        }
+
+        // Check if the user is the current user, if so, don't send.
         if (user.id === req.params.id) {
           check = true
         }
@@ -148,6 +161,7 @@ export class UserController {
       try {
         const user = await User.findById(req.params.id)
   
+        // Checks if a accept or decline match should be added to the user.
         choice ? user.acceptedMatches.push(req.body.id) : user.declinedMatches.push(req.body.id)
   
         await user.save()

@@ -16,6 +16,7 @@ export class AccountController {
   async login (req, res, next) {
     try {
       const user = await User.authenticate(req.body.username, req.body.password)
+      console.log(user)
 
       const payload = {
         sub: user.id,

@@ -1,3 +1,4 @@
+import createError from 'http-errors'
 import { User } from '../../models/user.js'
 
 /**
@@ -77,9 +78,16 @@ export class UserController {
         // If check is false, the user is sent to the client.
         let check = false
 
-        // Check if a user has declined the current user, if so, don't send.
+        // Check if current user has declined the user, if so, don't send.
         for (let i = 0; i < currentUser.declinedMatches.length; i++) {
           if (currentUser.declinedMatches[i] === user.id) {
+            check = true
+          }
+        }
+
+        // Check if current user has accepted the user, if so, don't send.
+        for (let i = 0; i < currentUser.acceptedMatches.length; i++) {
+          if (currentUser.acceptedMatches[i] === user.id) {
             check = true
           }
         }
@@ -171,4 +179,55 @@ export class UserController {
         next(error)
       }
     }
+
+      /**
+   * Checks if two users have chosen to connect and if so adds as friends.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+       async checkIfFriends (req, res, next) {
+        try { 
+          const currentUser = await User.findById(req.params.id)
+          const user = await User.findById(req.body.id)
+          console.log(user.acceptedMatches.includes(req.params.id))
+          console.log(currentUser.acceptedMatches.includes(req.body.id))
+
+          if (user.acceptedMatches.includes(req.params.id) && currentUser.acceptedMatches.includes(req.body.id)) {
+            // remove sensitive infromation before push
+            currentUser.friends.push({
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              programming: user.programming,
+              goals: user.goals,
+              description: user.description,
+              school: user.school,
+              location: user.location,
+              image: user.image
+            })
+
+            user.friends.push({
+              id: currentUser.id,
+              firstName: currentUser.firstName,
+              lastName: currentUser.lastName,
+              programming: currentUser.programming,
+              goals: currentUser.goals,
+              description: currentUser.description,
+              school: currentUser.school,
+              location: currentUser.location,
+              image: currentUser.image
+            })
+          } else {
+            next(createError(404))
+          }
+          await user.save()
+          await currentUser.save()
+          res.status(204).end()
+        } catch (error) {
+          console.log(error)
+          next(error)
+        }
+      }
 }

@@ -16,7 +16,7 @@ const controller = new UserController()
  */
 const verifyJWT = (req, res, next) => {
   try {
-    const payload = jwt.verify(req.cookies.jwt, process.env.PUBLIC_SECRET)
+    const payload = jwt.verify(req.cookies.jwt, JSON.parse(process.env.PUBLIC_SECRET))
     if (req.params.id !== payload.sub) {
       const err = createError(401)
       return next(err)

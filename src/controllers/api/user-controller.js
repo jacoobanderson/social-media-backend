@@ -240,8 +240,8 @@ export class UserController {
             try { 
               const user = await User.findById(req.params.id)
               const friends = []
-              
-              for (let i; i < user.friends.length; i++) {
+
+              for (let i = 0; i < user.friends.length; i++) {
                 friends.push({
                   id: user.friends[i].id,
                   firstName: user.friends[i].firstName,

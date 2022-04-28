@@ -50,7 +50,8 @@ const schema = new mongoose.Schema({
     type: String
   },
   image: {
-    type: String
+    type: String,
+    default: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAyUlEQVRIie3UPWpCQRTF8Z+xcAsJau0K0qbLjrIpRRCxEkyT1sLsIbFLBG2sRIv3/GDQeS/MdPHAqS5z/sOduZe7MqmLITalR+jlDP/FPvCqrCVreCX86EEOwCYCWFcdfkiE73MA3iO1af273FZP8aBhe37QyQGg+C0DRc/X6OcM/+dqRGpNvOAVz2g7T+4XvjHHDB/Y1YW28Ial2wMWelmeaVWFP+HzD8GhF3iMASYJ4UePY4BtBsD2MjB85MrdUlOn3NRld1e6DrtVa3D/P5H9AAAAAElFTkSuQmCC'
   },
   declinedMatches: {
     type: [String]

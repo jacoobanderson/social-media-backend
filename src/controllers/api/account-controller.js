@@ -16,14 +16,13 @@ export class AccountController {
   async login (req, res, next) {
     try {
       const user = await User.authenticate(req.body.username, req.body.password)
-      console.log(user)
 
       const payload = {
         sub: user.id,
         username: user.username
       }
 
-      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+      const accessToken = jwt.sign(payload, JSON.parse(process.env.ACCESS_TOKEN_SECRET), {
         algorithm: 'RS256',
         expiresIn: process.env.ACCESS_TOKEN_LIFE
       })

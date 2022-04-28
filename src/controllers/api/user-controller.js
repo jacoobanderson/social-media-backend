@@ -191,8 +191,6 @@ export class UserController {
         try { 
           const currentUser = await User.findById(req.params.id)
           const user = await User.findById(req.body.id)
-          console.log(user.acceptedMatches.includes(req.params.id))
-          console.log(currentUser.acceptedMatches.includes(req.body.id))
 
           if (user.acceptedMatches.includes(req.params.id) && currentUser.acceptedMatches.includes(req.body.id)) {
             // remove sensitive infromation before push
@@ -230,4 +228,33 @@ export class UserController {
           next(error)
         }
       }
+
+          /**
+   * Checks if two users have chosen to connect and if so adds as friends.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+           async getFriends (req, res, next) {
+            try { 
+              const user = await User.findById(req.params.id)
+              const friends = []
+              
+              for (let i; i < user.friends.length; i++) {
+                friends.push({
+                  id: user.friends[i].id,
+                  firstName: user.friends[i].firstName,
+                  lastName: user.friends[i].lastName,
+                  image: user.friends[i].image
+                })
+              }
+
+              res.status(200).json(friends)
+
+            } catch (error) {
+              console.log(error)
+              next(error)
+            }
+          }
 }

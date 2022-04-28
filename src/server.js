@@ -19,7 +19,7 @@ try {
   app.use(express.json())
 
   app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['http://localhost:3000'])
+    res.append('Access-Control-Allow-Origin', ['http://localhost:3000', 'https://sparkly-salmiakki-7cf9ea.netlify.app'])
     res.append('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE,OPTIONS')
     res.append('Access-Control-Allow-Headers', 'Content-Type')
     res.append('Access-Control-Allow-Credentials', 'true')

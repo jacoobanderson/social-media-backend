@@ -13,7 +13,12 @@ try {
 
   const app = express()
   const httpServer = createServer(app)
-  const io = new Server(httpServer)
+  const io = new Server(httpServer, {
+    cors: {
+      origin: 'http://localhost:3000',
+      methods: ['GET', 'POST']
+    }
+  })
 
   app.use(helmet())
 

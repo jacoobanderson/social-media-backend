@@ -26,6 +26,10 @@ try {
   io.on('connection', (socket) => {
     console.log('socket.io: Connected')
 
+    socket.on('message', ({ name, message }) => {
+      io.emit('message', { name, message })
+    })
+
     socket.on('disconnect', () => {
       console.log('socket.io: Disconnected')
     })
@@ -71,7 +75,7 @@ try {
   })
 
   // Starts the HTTP server listening for connections.
-  app.listen(process.env.PORT, () => {
+  httpServer.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`)
     console.log('Press Ctrl-C to terminate...')
   })

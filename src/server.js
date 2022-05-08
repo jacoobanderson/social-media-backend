@@ -4,11 +4,16 @@ import logger from 'morgan'
 import { connectDB } from './config/mongoose.js'
 import { router } from './routes/router.js'
 import cookieParser from 'cookie-parser'
+import { Server } from 'socket.io'
+import { createServer } from 'node:http'
+
 
 try {
   await connectDB()
 
   const app = express()
+  const httpServer = createServer(app)
+  const io = new Server(httpServer)
 
   app.use(helmet())
 
@@ -18,8 +23,16 @@ try {
 
   app.use(express.json())
 
+  io.on('connection', (socket) => {
+    console.log('socket.io: Connected')
+
+    socket.on('disconnect', () => {
+      console.log('socket.io: Disconnected')
+    })
+  })
+
   app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['https://sparkly-salmiakki-7cf9ea.netlify.app'])
+    res.append('Access-Control-Allow-Origin', ['http://localhost:3000'])
     res.append('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE,OPTIONS')
     res.append('Access-Control-Allow-Headers', 'Content-Type')
     res.append('Access-Control-Allow-Credentials', 'true')

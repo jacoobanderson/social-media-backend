@@ -31,23 +31,33 @@ try {
     console.log('socket.io: Connected')
 
     socket.on('join', room => {
-      console.log(room)
       const sortedRoom = room.sort((a, b) => (a < b ? -1 : 1))
-      console.log(sortedRoom)
       const joinRoom = sortedRoom[0] + sortedRoom[1]
+      const socketRooms = [...socket.rooms]
+
+      socketRooms
+        .filter(it => it !== socket.id)
+        .forEach(id => {
+          socket.leave(id)
+          socket.removeAllListeners('message')
+        })
 
       socket.join(joinRoom)
 
       socket.on('message', ({ name, message }) => {
-        io.emit('message', { name, message })
+        socketRooms
+          .filter(it => it !== socket.id)
+          .forEach(id => {
+            io.to(id).emit('message', { name, message })
+          })
       })
-      
+
       socket.on('disconnect', () => {
         console.log('socket.io: Disconnected')
       })
     })
   })
-    
+
   app.use((req, res, next) => {
     res.append('Access-Control-Allow-Origin', ['http://localhost:3000'])
     res.append('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE,OPTIONS')

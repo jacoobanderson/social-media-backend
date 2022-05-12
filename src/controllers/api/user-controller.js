@@ -246,7 +246,7 @@ export class UserController {
                   id: user.friends[i].id,
                   firstName: user.friends[i].firstName,
                   lastName: user.friends[i].lastName,
-                  image: user.friends[i].image
+                  image: user.friends[i].image,
                 })
               }
 

@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser'
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
 
-
 try {
   await connectDB()
 
@@ -31,15 +30,24 @@ try {
   io.on('connection', (socket) => {
     console.log('socket.io: Connected')
 
-    socket.on('message', ({ name, message }) => {
-      io.emit('message', { name, message })
-    })
+    socket.on('join', room => {
+      console.log(room)
+      const sortedRoom = room.sort((a, b) => (a < b ? -1 : 1))
+      console.log(sortedRoom)
+      const joinRoom = sortedRoom[0] + sortedRoom[1]
 
-    socket.on('disconnect', () => {
-      console.log('socket.io: Disconnected')
+      socket.join(joinRoom)
+
+      socket.on('message', ({ name, message }) => {
+        io.emit('message', { name, message })
+      })
+      
+      socket.on('disconnect', () => {
+        console.log('socket.io: Disconnected')
+      })
     })
   })
-
+    
   app.use((req, res, next) => {
     res.append('Access-Control-Allow-Origin', ['http://localhost:3000'])
     res.append('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE,OPTIONS')

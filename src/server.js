@@ -6,6 +6,7 @@ import { router } from './routes/router.js'
 import cookieParser from 'cookie-parser'
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
+import { Messages } from './models/messages.js'
 
 try {
   await connectDB()
@@ -50,6 +51,22 @@ try {
           .forEach(id => {
             io.to(id).emit('message', { name, message })
           })
+
+          async function addMessageToDb() {
+            const dbRoom = await Messages.findOne({ room: joinRoom })
+            console.log(dbRoom)
+            if (dbRoom) {
+             dbRoom.messages.push({ name: name, message: message })
+              await dbRoom.save()
+            } else {
+              const newMessage = new Messages({
+                messages: [{ name: name, message: message }],
+                room: joinRoom
+              })
+             await newMessage.save()
+            }
+          }
+          addMessageToDb()
       })
 
       socket.on('disconnect', () => {

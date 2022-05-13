@@ -152,7 +152,6 @@ export class UserController {
       await user.save()
       res.status(204).end()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
@@ -163,7 +162,7 @@ export class UserController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
-   * @param choice
+   * @param {boolean} choice the choice of the user.
    */
   async saveMatchHistory (req, res, next, choice) {
     try {
@@ -224,7 +223,6 @@ export class UserController {
       await currentUser.save()
       res.status(204).end()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
@@ -252,7 +250,6 @@ export class UserController {
 
       res.status(200).json(friends)
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }

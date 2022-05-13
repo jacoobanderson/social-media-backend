@@ -54,7 +54,6 @@ try {
 
           async function addMessageToDb() {
             const dbRoom = await Messages.findOne({ room: joinRoom })
-            console.log(dbRoom)
             if (dbRoom) {
              dbRoom.messages.push({ name: name, message: message })
               await dbRoom.save()

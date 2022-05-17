@@ -6,7 +6,15 @@ import { Messages } from '../../models/messages.js'
  */
 export class MessagesController {
     async getMessages(req, res, next) {
-        const messages = await Messages.findOne({ room: req.params.id })
-        res.json(messages?.messages)
+        try {
+            const messages = await Messages.findOne({ room: req.params.id })
+           if (messages) {
+               res.json(messages?.messages)
+           } else {
+               res.json({ messages: 'none' })
+           }
+        } catch (error) {
+            next(error)
+        }
     }
 }

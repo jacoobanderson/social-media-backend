@@ -43,14 +43,11 @@ try {
           socket.removeAllListeners('message')
         })
 
-      socket.join(joinRoom)
+        socket.join(joinRoom)
 
       socket.on('message', ({ name, message }) => {
-        socketRooms
-          .filter(it => it !== socket.id)
-          .forEach(id => {
-            io.to(id).emit('message', { name, message })
-          })
+            io.to(joinRoom).emit('message', { name, message })
+
 
           async function addMessageToDb() {
             const dbRoom = await Messages.findOne({ room: joinRoom })

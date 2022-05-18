@@ -22,4 +22,21 @@ export class DiscussionController {
       next(error)
     }
   }
+
+  async createDiscussion (req, res, next) {
+      try {
+        const discussion = new Discussion({
+            title: req.body.title,
+            owner: req.body.owner,
+            content: req.body.content
+          })
+          await discussion.save()
+    
+          res
+            .status(201)
+            .json({ status: 'The discussion has successfully been created' })
+      } catch (error) {
+          next(error)
+      }
+  }
 }

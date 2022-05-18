@@ -5,13 +5,16 @@ const schema = new mongoose.Schema({
     type: [Object]
   },
   title: {
-    type: String
+    type: String,
+    required: [true, 'Title is required.']
   },
   owner: {
-    type: String
+    type: String,
+    required: true
   },
   content: {
-    type: String
+    type: String,
+    required: [true, 'Content is required']
   },
   likes: {
     type: Number

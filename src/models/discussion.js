@@ -12,6 +12,12 @@ const schema = new mongoose.Schema({
   },
   content: {
     type: String
+  },
+  likes: {
+    type: Number
+  },
+  dislikes: {
+    type: Number
   }
 })
 

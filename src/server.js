@@ -43,26 +43,28 @@ try {
           socket.removeAllListeners('message')
         })
 
-        socket.join(joinRoom)
+      socket.join(joinRoom)
 
       socket.on('message', ({ name, message }) => {
-            io.to(joinRoom).emit('message', { name, message })
+        io.to(joinRoom).emit('message', { name, message })
 
-
-          async function addMessageToDb() {
-            const dbRoom = await Messages.findOne({ room: joinRoom })
-            if (dbRoom) {
-             dbRoom.messages.push({ name: name, message: message })
-              await dbRoom.save()
-            } else {
-              const newMessage = new Messages({
-                messages: [{ name: name, message: message }],
-                room: joinRoom
-              })
-             await newMessage.save()
-            }
+        /**
+         * Stores the message sent in the database.
+         */
+        async function addMessageToDb () {
+          const dbRoom = await Messages.findOne({ room: joinRoom })
+          if (dbRoom) {
+            dbRoom.messages.push({ name: name, message: message })
+            await dbRoom.save()
+          } else {
+            const newMessage = new Messages({
+              messages: [{ name: name, message: message }],
+              room: joinRoom
+            })
+            await newMessage.save()
           }
-          addMessageToDb()
+        }
+        addMessageToDb()
       })
 
       socket.on('disconnect', () => {

@@ -17,11 +17,13 @@ const schema = new mongoose.Schema({
     required: [true, 'Content is required']
   },
   likes: {
-    type: Number
+    type: [Object]
   },
   dislikes: {
-    type: Number
+    type: [Object]
   }
+}, {
+  timestamps: true
 })
 
 export const Discussion = mongoose.model('Discussion', schema)

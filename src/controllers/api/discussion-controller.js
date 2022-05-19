@@ -23,6 +23,29 @@ export class DiscussionController {
     }
   }
 
+    /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+     async addComment (req, res, next) {
+        try {
+          const discussion = await Discussion.findById(req.body.id)
+          console.log(discussion)
+          discussion.replies.push({
+              owner: req.body.owner,
+              content: req.body.content
+          })
+
+          await discussion.save()
+          res.status(200)
+        } catch (error) {
+            console.log(error)
+          next(error)
+        }
+      }
+
   /**
    *
    * @param req

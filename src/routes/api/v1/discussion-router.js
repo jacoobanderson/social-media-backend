@@ -31,3 +31,4 @@ const verifyJWT = (req, res, next) => {
 
 router.get('/all', (req, res, next) => controller.getDiscussions(req, res, next))
 router.post('/:id/create', verifyJWT, (req, res, next) => controller.createDiscussion(req, res, next))
+router.post('/:id/comments/create', verifyJWT, (req, res, next) => controller.addComment(req, res, next))

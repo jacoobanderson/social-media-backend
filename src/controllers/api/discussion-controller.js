@@ -32,14 +32,14 @@ export class DiscussionController {
      async addComment (req, res, next) {
         try {
           const discussion = await Discussion.findById(req.body.id)
-          console.log(discussion)
-          discussion.replies.push({
-              owner: req.body.owner,
-              content: req.body.content
-          })
+          console.log(await discussion)
+            discussion?.replies.push({
+                owner: req.body.owner,
+                content: req.body.content
+            })
 
           await discussion.save()
-          res.status(200)
+          res.status(200).end()
         } catch (error) {
             console.log(error)
           next(error)
@@ -63,7 +63,7 @@ export class DiscussionController {
 
       res
         .status(201)
-        .json({ status: 'The discussion has successfully been created' })
+        .json({ id: discussion.id })
     } catch (error) {
       next(error)
     }

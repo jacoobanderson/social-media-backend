@@ -15,9 +15,9 @@ export class DiscussionController {
     try {
       const discussions = await Discussion.find({})
       if (discussions) {
-        res.json(discussions)
+        res.status(200).json(discussions)
       } else {
-        res.json({ status: 'no current discussions' })
+        res.json({ status: 'No current discussions' })
       }
     } catch (error) {
       next(error)
@@ -34,7 +34,6 @@ export class DiscussionController {
   async addComment (req, res, next) {
     try {
       const discussion = await Discussion.findById(req.body.id)
-      console.log(await discussion)
       discussion?.replies.push({
         owner: req.body.owner,
         content: req.body.content
@@ -43,7 +42,6 @@ export class DiscussionController {
       await discussion.save()
       res.status(200).end()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }

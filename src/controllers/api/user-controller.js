@@ -6,6 +6,27 @@ import { User } from '../../models/user.js'
  */
 export class UserController {
   /**
+   * Creates an object depending on type.
+   *
+   * @param {object} type type of data used.
+   * @returns {object} Object of user data.
+   */
+  createUserDataObject (type) {
+    return {
+      id: type.id,
+      username: type.username,
+      firstname: type.firstName,
+      lastname: type.lastName,
+      programming: type.programming,
+      goals: type.goals,
+      description: type.description,
+      school: type.school,
+      location: type.location,
+      image: type.image
+    }
+  }
+
+  /**
    * Gets user data.
    *
    * @param {object} req - Express request object.
@@ -15,20 +36,10 @@ export class UserController {
   async getUserData (req, res, next) {
     try {
       const user = await User.findById(req.params.id)
-      res.status(201).json({
-        id: user.id,
-        username: user.username,
-        firstname: user.firstName,
-        lastname: user.lastName,
-        programming: user.programming,
-        goals: user.goals,
-        description: user.description,
-        school: user.school,
-        location: user.location,
-        image: user.image
-      })
+      const data = this.createUserDataObject(user)
+
+      res.status(200).json(data)
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
@@ -43,20 +54,11 @@ export class UserController {
   async updateProfile (req, res, next) {
     try {
       const user = await User.findById(req.params.id)
+      const data = this.createUserDataObject(req.body)
 
-      await user.update({
-        firstName: req.body.firstname,
-        lastName: req.body.lastname,
-        programming: req.body.programming,
-        goals: req.body.goals,
-        description: req.body.description,
-        school: req.body.school,
-        location: req.body.location,
-        image: req.body.image
-      })
+      await user.update(data)
       res.status(204).end()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
@@ -105,23 +107,13 @@ export class UserController {
         }
 
         if (check === false) {
-          unmatchedUsers.push({
-            id: user.id,
-            firstname: user.firstName,
-            lastname: user.lastName,
-            programming: user.programming,
-            goals: user.goals,
-            description: user.description,
-            school: user.school,
-            location: user.location,
-            image: user.image
-          })
+          const data = this.createUserDataObject(user)
+          unmatchedUsers.push(data)
         }
       })
 
       res.json(unmatchedUsers)
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
@@ -174,7 +166,6 @@ export class UserController {
       await user.save()
       res.status(204).end()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }

@@ -15,12 +15,6 @@ const schema = new mongoose.Schema({
   content: {
     type: String,
     required: [true, 'Content is required']
-  },
-  likes: {
-    type: [Object]
-  },
-  dislikes: {
-    type: [Object]
   }
 }, {
   timestamps: true

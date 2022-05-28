@@ -5,10 +5,11 @@ import { Discussion } from '../../models/discussion.js'
  */
 export class DiscussionController {
   /**
+   * Gets all the discussions.
    *
-   * @param req
-   * @param res
-   * @param next
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async getDiscussions (req, res, next) {
     try {
@@ -23,34 +24,36 @@ export class DiscussionController {
     }
   }
 
-    /**
+  /**
+   * Adds a comment.
    *
-   * @param req
-   * @param res
-   * @param next
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
-     async addComment (req, res, next) {
-        try {
-          const discussion = await Discussion.findById(req.body.id)
-          console.log(await discussion)
-            discussion?.replies.push({
-                owner: req.body.owner,
-                content: req.body.content
-            })
+  async addComment (req, res, next) {
+    try {
+      const discussion = await Discussion.findById(req.body.id)
+      console.log(await discussion)
+      discussion?.replies.push({
+        owner: req.body.owner,
+        content: req.body.content
+      })
 
-          await discussion.save()
-          res.status(200).end()
-        } catch (error) {
-            console.log(error)
-          next(error)
-        }
-      }
+      await discussion.save()
+      res.status(200).end()
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
 
   /**
+   * Creates a discussion thread.
    *
-   * @param req
-   * @param res
-   * @param next
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async createDiscussion (req, res, next) {
     try {

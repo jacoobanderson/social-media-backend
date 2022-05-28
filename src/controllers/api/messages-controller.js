@@ -5,10 +5,11 @@ import { Messages } from '../../models/messages.js'
  */
 export class MessagesController {
   /**
+   * Gets all the messages.
    *
-   * @param req
-   * @param res
-   * @param next
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async getMessages (req, res, next) {
     try {

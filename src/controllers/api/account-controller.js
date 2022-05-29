@@ -22,7 +22,7 @@ export class AccountController {
         username: user.username
       }
 
-      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+      const accessToken = jwt.sign(payload, JSON.parse(process.env.ACCESS_TOKEN_SECRET), {
         algorithm: 'RS256',
         expiresIn: process.env.ACCESS_TOKEN_LIFE
       })
@@ -31,7 +31,7 @@ export class AccountController {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
         secure: true,
-        sameSite: 'strict'
+        sameSite: 'none'
       })
 
       res

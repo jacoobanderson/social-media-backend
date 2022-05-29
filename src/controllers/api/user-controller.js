@@ -56,7 +56,18 @@ export class UserController {
       const user = await User.findById(req.params.id)
       const data = this.createUserDataObject(req.body)
 
-      await user.update(data)
+      await user.update({
+        id: req.body.id,
+        username: req.body.username,
+        firstname: req.body.firstName,
+        lastname: req.body.lastName,
+        programming: req.body.programming,
+        goals: req.body.goals,
+        description: req.body.description,
+        school: req.body.school,
+        location: req.body.location,
+        image: req.body.image
+      })
       res.status(204).end()
     } catch (error) {
       next(error)

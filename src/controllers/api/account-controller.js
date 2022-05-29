@@ -107,14 +107,14 @@ export class AccountController {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-     async deleteAccount (req, res, next) {
-      try {
-        const user = await User.findById(req.params.id)
-        user.delete()
-        res.clearCookie('jwt')
-        res.status(200).end()
-      } catch (error) {
-        next(error)
-      }
+  async deleteAccount (req, res, next) {
+    try {
+      const user = await User.findById(req.params.id)
+      user.delete()
+      res.clearCookie('jwt')
+      res.status(200).end()
+    } catch (error) {
+      next(error)
     }
+  }
 }

@@ -15,7 +15,7 @@ try {
   const httpServer = createServer(app)
   const io = new Server(httpServer, {
     cors: {
-      origin: 'http://localhost:3000',
+      origin: 'https://sparkly-salmiakki-7cf9ea.netlify.app',
       methods: ['GET', 'POST']
     }
   })
@@ -74,7 +74,7 @@ try {
   })
 
   app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['http://localhost:3000'])
+    res.append('Access-Control-Allow-Origin', ['https://sparkly-salmiakki-7cf9ea.netlify.app'])
     res.append('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE,OPTIONS')
     res.append('Access-Control-Allow-Headers', 'Content-Type')
     res.append('Access-Control-Allow-Credentials', 'true')

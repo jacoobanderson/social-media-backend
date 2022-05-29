@@ -54,13 +54,10 @@ export class UserController {
   async updateProfile (req, res, next) {
     try {
       const user = await User.findById(req.params.id)
-      const data = this.createUserDataObject(req.body)
 
       await user.update({
-        id: req.body.id,
-        username: req.body.username,
-        firstname: req.body.firstName,
-        lastname: req.body.lastName,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         programming: req.body.programming,
         goals: req.body.goals,
         description: req.body.description,

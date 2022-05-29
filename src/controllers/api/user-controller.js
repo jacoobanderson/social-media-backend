@@ -56,8 +56,8 @@ export class UserController {
       const user = await User.findById(req.params.id)
 
       await user.update({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
         programming: req.body.programming,
         goals: req.body.goals,
         description: req.body.description,
